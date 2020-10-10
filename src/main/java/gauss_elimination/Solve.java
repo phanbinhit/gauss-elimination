@@ -4,23 +4,8 @@ public class Solve {
 	
 	private static int i, j, k; 
 	private static double pivot, coefficient;
-	private static double[][] matrix = {{2, 1, -1, 3}, {1, -1, 2, 2}, {3, -2, 1, -1}};
 	
-	private static void showMatrix(double[][] matrix) {
-		for (int i = 0; i < matrix.length; i++) {
-			for (int j = 0 ; j < matrix[i].length; j++) {
-				System.out.print(matrix[i][j] +" ");
-			}
-			System.out.println();
-		}
-	}
-	
-	private static void showArray(double[] array) {
-		for (int i = 0 ; i < array.length; i++) {
-			System.out.println("x["+ i + "]: " + array[i]);
-		}
-	}
-	
+	@SuppressWarnings("deprecation")
 	public double[] solveEquations(final double[][] matrix) {
 		double[] results = new double[matrix[0].length - 1];
 		int row = matrix.length;
@@ -28,7 +13,7 @@ public class Solve {
 		if(col > row + 1) {
 			System.out.println("Phương trình vô nghiệm");
 		} else {
-			loop:for (i = 0; i < row; i++) {
+			for (i = 0; i < row; i++) {
 				
 				pivot = matrix[i][i];
 				

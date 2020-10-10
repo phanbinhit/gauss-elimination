@@ -2,46 +2,37 @@ package gauss_elimination;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.Popup;
-import javax.swing.PopupFactory;
 
+@SuppressWarnings("serial")
 public class GUI extends JFrame implements ActionListener{
 	JPanel panel;
 	JButton btnStart;
 	JTextField enterField;
-	Popup popup, popup2;
-	PopupFactory pf;
 	JTextField[][] coeJTFields;
 	JLabel[][] xJLabels;
 	JButton btnRs;
 	int marginBot = 20;
 	int marginLeft = 40;
-	int size = 50;
-	int y = 100;
+	int size = 30;
+	int y;
 	JLabel alert;
+	JLabel[] rsJLabels;
 	private static double[][] matrix;
 	public static void main(String[] args) {
-		new GUI();
-//		double[] rs = new Solve().solveEquations(matrix);
-		
+		new GUI();	
 	}
 	
 	public GUI() {
 		setTitle("Gauss Elimination");
-		setSize(600, 500);
+		setSize(450, 500);
 		//pack();
 		setResizable(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -75,17 +66,30 @@ public class GUI extends JFrame implements ActionListener{
         setVisible(true);
 	}
 	
-	@Override
-	public void paint(Graphics g) {
-		// TODO Auto-generated method stub
-		super.paint(g);
-	}
-
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(btnStart)) {
+			y = 100;
 			String input = enterField.getText();
 			try {
 				int number = Integer.parseInt(input);
+				if (coeJTFields != null) {
+					for (int i = 0; i < coeJTFields.length; i++) {
+						for (int j = 0; j < coeJTFields[0].length; j++) {
+							panel.remove(coeJTFields[i][j]);
+							if (j < coeJTFields[0].length - 1) {
+								panel.remove(xJLabels[i][j]);
+							}
+						}
+					}
+					panel.remove(btnRs);
+				}
+				
+				if (rsJLabels != null) {
+					for (int i = 0; i < rsJLabels.length; i++) {
+						panel.remove(rsJLabels[i]);
+					}
+				}
+				
 				alert.setVisible(false);
 				coeJTFields = new JTextField[number][number + 1];
 				xJLabels = new JLabel[number][number];
@@ -127,7 +131,6 @@ public class GUI extends JFrame implements ActionListener{
 			int col = coeJTFields[0].length;
 			boolean isError = false;
 			double[] results;
-			JLabel[] rsJLabels;
 			matrix = new double[row][col];
 			for (int i = 0 ; i < row; i++) {
 				for (int j = 0; j < col; j++) {
@@ -143,6 +146,11 @@ public class GUI extends JFrame implements ActionListener{
 				}
 			}
 			if (!isError) {
+				if (rsJLabels != null) {
+					for (int i = 0; i < rsJLabels.length; i++) {
+						panel.remove(rsJLabels[i]);
+					}
+				}
 				results = new Solve().solveEquations(matrix);
 				rsJLabels = new JLabel[results.length];
 				for (int i = 0 ; i < results.length; i++) {
